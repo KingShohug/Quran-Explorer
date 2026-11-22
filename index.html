@@ -405,7 +405,18 @@ html[data-theme="dark"] mark.srch{background:#6a5f2a!important;color:#fff!import
 :root[data-theme="dark"] .nc, :root[data-theme="dark"] .nc *{color:#fff !important}
 :root[data-theme="dark"] .nc small{color:rgba(255,255,255,.85) !important}
 </style>
-<style id="superfast">#app.pg-in>*,#app.pg-in>.w>*{animation:none!important;animation-delay:0ms!important}html{scroll-behavior:auto!important}*{scroll-behavior:auto!important}</style></head>
+<style id="superfast">#app.pg-in>*,#app.pg-in>.w>*{animation:none!important;animation-delay:0ms!important}html{scroll-behavior:auto!important}*{scroll-behavior:auto!important}</style>
+<!-- Quran Explorer PWA metadata -->
+<meta name="theme-color" content="#1B2A5E">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Quran Explorer">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+
+</head>
 <body>
 <script>(function(){try{var s=localStorage.getItem('quran-theme');if(!s){s=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',s);}catch(e){}})();
 function __syncThemeBtn(){var b=document.getElementById('themeToggle');if(!b)return;var d=document.documentElement.getAttribute('data-theme')==='dark';b.textContent=d?'\u2600\uFE0F':'\uD83C\uDF19';b.setAttribute('aria-label',d?'লাইট মোড চালু করুন':'ডার্ক মোড চালু করুন');b.title=b.getAttribute('aria-label');}
