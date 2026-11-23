@@ -1,14 +1,13 @@
 {
   "id": "./",
-  "name": "কুরআন Explorer",
+  "name": "Quran Explorer",
   "short_name": "Quran Explorer",
-  "description": "কুরআন, হাদিস, দোয়া ও ইসলামিক শিক্ষার অ্যাপ",
-  "lang": "bn",
+  "description": "কুরআন, হাদিস, দোয়া ও ইসলামিক প্রয়োজনীয় তথ্য",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#E7EBFF",
+  "background_color": "#e3f4ff",
   "theme_color": "#1B2A5E",
   "icons": [
     {
