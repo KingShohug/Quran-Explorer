@@ -509,12 +509,12 @@ function nav(p){window.__swipeMode=p;/* NAV SWIPE — inside nav() itself, so it
 if(!window.__navSwipeInstalled){window.__navSwipeInstalled=true;(function(){var _sx=0,_sy=0,_ok=false,_fired=false;var _app=document;
 function _go(dx,dy){if(_fired)return;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5){if(window.__swipeMode==='')return;_fired=true;try{var ORDER=['home','list','hd','dua','more'];var on=document.querySelector('#nv button.on');var curKey='home';if(on){if(on.hasAttribute('data-m'))curKey='more';else if(on.getAttribute('data-n'))curKey=on.getAttribute('data-n');}var i=ORDER.indexOf(curKey);if(i<0)i=0;var ni=(i+(dx<0?1:-1)+ORDER.length)%ORDER.length;var key=ORDER[ni];var btn=key==='more'?document.querySelector('#nv [data-m]'):document.querySelector('#nv button[data-n="'+key+'"]');if(btn){try{window.__navLast=0;}catch(e){}btn.click();}}catch(e){}}}
 try{document.documentElement.style.overscrollBehaviorX='none';document.documentElement.style.touchAction='pan-y';try{document.body.style.touchAction='pan-y';}catch(e){}}catch(e){}
-_app.addEventListener('touchstart',function(ev){try{if(!ev.target||!ev.target.closest||ev.target.closest('input,textarea,select')){_ok=false;return;}}catch(e){_ok=false;return;}_ok=true;_fired=false;var tt=ev.touches[0];_sx=tt.clientX;_sy=tt.clientY;},{passive:true});
+_app.addEventListener('touchstart',function(ev){try{if(!ev.target||!ev.target.closest||ev.target.closest('input,textarea,select')){_ok=false;return;}var _n=ev.target;while(_n&&_n!==document){try{if(_n.scrollWidth&&_n.clientWidth&&_n.scrollWidth>_n.clientWidth+4){var _cs=getComputedStyle(_n);if(_cs&&(_cs.overflowX==='auto'||_cs.overflowX==='scroll')){_ok=false;return;}}}catch(e){}_n=_n.parentElement;}}catch(e){_ok=false;return;}_ok=true;_fired=false;var tt=ev.touches[0];_sx=tt.clientX;_sy=tt.clientY;},{passive:true});
 _app.addEventListener('touchmove',function(ev){if(!_ok||_fired)return;try{var _t=ev.touches[0];if(!_t)return;var _dx=_t.clientX-_sx,_dy=_t.clientY-_sy;if(Math.abs(_dx)>30&&Math.abs(_dx)>Math.abs(_dy)*1.5){ev.preventDefault();if(Math.abs(_dx)>90)_go(_dx,_dy);}}catch(e){}},{passive:false});
 function _end(ev){if(!_ok)return;_ok=false;try{var tt=ev.changedTouches[0];_go(tt.clientX-_sx,tt.clientY-_sy);}catch(e){}}
 _app.addEventListener('touchend',_end,{passive:true});
 var _pDown=false,_pX=0,_pY=0;
-_app.addEventListener('pointerdown',function(ev){if(ev.pointerType!=='touch'&&ev.pointerType!=='pen')return;try{if(!ev.target||!ev.target.closest||ev.target.closest('input,textarea,select')){_pDown=false;return;}}catch(e){_pDown=false;return;}_pDown=true;_pX=ev.clientX;_pY=ev.clientY;},{passive:true});
+_app.addEventListener('pointerdown',function(ev){if(ev.pointerType!=='touch'&&ev.pointerType!=='pen')return;try{if(!ev.target||!ev.target.closest||ev.target.closest('input,textarea,select')){_pDown=false;return;}var _n2=ev.target;while(_n2&&_n2!==document){try{if(_n2.scrollWidth&&_n2.clientWidth&&_n2.scrollWidth>_n2.clientWidth+4){var _cs2=getComputedStyle(_n2);if(_cs2&&(_cs2.overflowX==='auto'||_cs2.overflowX==='scroll')){_pDown=false;return;}}}catch(e){}_n2=_n2.parentElement;}}catch(e){_pDown=false;return;}_pDown=true;_pX=ev.clientX;_pY=ev.clientY;},{passive:true});
 _app.addEventListener('pointermove',function(ev){if(!_pDown||_fired)return;try{var _dx=ev.clientX-_pX,_dy=ev.clientY-_pY;if(Math.abs(_dx)>90&&Math.abs(_dx)>Math.abs(_dy)*1.5){_go(_dx,_dy);}}catch(e){}},{passive:true});
 _app.addEventListener('pointerup',function(ev){if(!_pDown)return;_pDown=false;try{_go(ev.clientX-_pX,ev.clientY-_pY);}catch(e){}});
 _app.addEventListener('pointercancel',function(ev){_pDown=false;},{passive:true});
@@ -3628,7 +3628,7 @@ nav#nv button.on i .mi{color:#fff}
   var szDirty=0;
   function szSave(force){ if(!force&&++szDirty<20)return; szDirty=0; try{localStorage.setItem(SZ_KEY,JSON.stringify(OF.SZ))}catch(x){} }
   function fmtSize(b){ b=+b||0; if(b<=0)return bn(0)+' KB'; if(b<1048576)return bn(Math.round(b/1024))+' KB'; var v=(b/1048576); return bn(v>=10?Math.round(v):v.toFixed(1))+' MB'; }
-  function qariKB(){ var q=AU.qari||''; if(q.indexOf('192kbps')>=0)return 240; if(q.indexOf('64kbps')>=0)return 80; return 160; }
+  function qariKB(){ var q=AU.qari||''; if(q.indexOf('192kbps')>=0)return 408; if(q.indexOf('64kbps')>=0)return 136; return 272; }
   function surahBytes(s){ var sum=0,known=0,tot=L[s-1].ay; for(var i=1;i<=tot;i++){ var k=AU.key(s,i); if(OF.SZ[k]!=null){sum+=OF.SZ[k];known++;} } return {bytes:sum,known:known}; }
   function estTotalBytes(s){ var sb=surahBytes(s); if(sb.known>0){ var avg=sb.bytes/sb.known; return Math.round(avg*L[s-1].ay); } return Math.round(qariKB()*1024*L[s-1].ay); }
   function totalSavedBytes(){ var sum=0; Object.keys(OF.SZ).forEach(function(k){ sum+=OF.SZ[k]||0; }); return sum; }
@@ -3736,12 +3736,12 @@ nav#nv button.on i .mi{color:#fff}
     el.innerHTML="<div>✅ <b>আরবি কোরআন + বাংলা অনুবাদ + তাফসির সারাংশ</b> — অ্যাপের ভেতরেই আছে, ইন্টারনেট ছাড়াই পড়া যায়।</div>"+
       "<div style='margin-top:6px'>"+(on?'🌐 এখন অনলাইন':'📴 এখন অফলাইন — সেভ করা অডিও ও অনুবাদ কাজ করবে')+"</div>"+
       "<div style='margin-top:6px'>🎧 এই কারীর অডিও সেভ: <b>"+bn(sv)+" / "+bn(TOTAL)+"</b> আয়াত ("+bn(done)+"টি সূরা পূর্ণ) · সেভ করা মোট সাইজ: <b>"+fmtSize(totalSavedBytes())+"</b></div>"+
-      "<div style='margin-top:4px'>📦 পুরো কুরআন (১১৪টি সূরা, "+bn(TOTAL)+" আয়াত) ডাউনলোড করলে আনুমানিক <b>"+fmtSize(qariKB()*1024*TOTAL)+"</b> লাগবে</div>"+
+      "<div style='margin-top:4px'>📦 পুরো কুরআন (১১৪টি সূরা, "+bn(TOTAL)+" আয়াত) ডাউনলোড করলে আনুমানিক <b>"+fmtSize((sv>0?Math.round(totalSavedBytes()/sv*TOTAL):qariKB()*1024*TOTAL))+"</b> লাগবে"+(sv>0?" · সেভ করা আয়াতের আসল গড় থেকে হিসাব":" · এই কারীর আসল গড় থেকে হিসাব")+"</div>"+
       "<div style='margin-top:4px'>📴 আরবি + বাংলা অনুবাদ + তাফসির সারাংশ অ্যাপেই আছে — ডাউনলোড করা অডিওসহ সবকিছু ইন্টারনেট ছাড়াই পড়া/শোনা যাবে। ব্যাকআপ ম্যানিফেস্ট এই ফোনেই সেভ থাকে, ডাউনলোড হারিয়ে গেলে যাচাই করে আবার নামানো যাবে।</div>"+
       "<div id='ofStore' style='margin-top:6px'></div>";
     try{
       if(navigator.storage&&navigator.storage.estimate)navigator.storage.estimate().then(function(e){
-        var s2=$('ofStore');if(s2&&e&&e.usage!=null)s2.textContent='💾 ফোনে ব্যবহৃত জায়গা: '+mb(e.usage)+(e.quota?' (সীমা প্রায় '+mb(e.quota)+')':'');
+        var s2=$('ofStore');if(s2&&e&&e.usage!=null)s2.textContent='💾 ব্রাউজার স্টোরেজে মোট ব্যবহৃত (এই অ্যাপের সব ডেটা — অডিও + সেটিংস/ক্যাশ মিলিয়ে, শুধু কুরআন অডিও নয়): '+mb(e.usage)+(e.quota?' (সীমা প্রায় '+mb(e.quota)+')':'');
       }).catch(function(){});
     }catch(x){}
     var bar=$('ofBar');if(bar)bar.style.width=(TOTAL?Math.round(sv/TOTAL*100):0)+'%';
