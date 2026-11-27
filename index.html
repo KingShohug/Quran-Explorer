@@ -5440,6 +5440,76 @@ html[data-theme="dark"] #jq{background:#3c4043!important;color:#e8eaed}
 html[data-theme="dark"] .keep-title,html[data-theme="dark"] .keep-txt,html[data-theme="dark"] .keep-plain-line,html[data-theme="dark"] .keep-ed-title,html[data-theme="dark"] .keep-ed-txt{color:#e8eaed}
 html[data-theme="dark"] #keepColorSheet{background:#2b2b2b}
 </style>
+
+<script id="liveHisabHub">
+(function(){
+  try{
+    /* 1) আরো থেকে আলাদা ৪টা এন্ট্রি সরিয়ে একটাই হাব এন্ট্রি বানানো */
+    if(typeof XF!=='undefined' && XF.splice){
+      for(var i=XF.length-1;i>=0;i--){ if(['qb','cal','info','calc'].indexOf(XF[i][0])>=0) XF.splice(i,1); }
+      if(!XF.some(function(f){return f[0]==='liveHisab';})){
+        XF.push(['liveHisab','🧮','লাইভ হিসাব','ক্যালকুলেটর · অ্যাপ তথ্য · কিবলা কম্পাস · ক্যালেন্ডার']);
+      }
+      /* আরো-এর ফাইনাল অর্ডার: স্তম্ভ, আমল / প্রয়োজন, জীবনী / লাইভ হিসাব, নোট / আসমাউল হুসনা, ইসলামিক নাম / ঈদ, সেটিংস */
+      var want=['pillars','amalHub','proyojon','jiboni','liveHisab','jr','nm','names','eid','settings'];
+      var ordered=[];
+      want.forEach(function(k){ var f=XF.find(function(x){return x[0]===k;}); if(f) ordered.push(f); });
+      XF.forEach(function(f){ if(want.indexOf(f[0])<0) ordered.push(f); });
+      XF.length=0; ordered.forEach(function(f){ XF.push(f); });
+    }
+    if(typeof XCC!=='undefined') XCC.liveHisab='#C9A227';
+    /* 2) ভেতরের ৪টা খুললে ব্যাক বাটন -> লাইভ হিসাব-এ ফেরত */
+    function fixBack(){
+      setTimeout(function(){
+        var b=document.getElementById('xbk'); if(b){ b.onclick=function(){ XP2.liveHisab(); scrollTo(0,0); }; }
+        var q=document.getElementById('__qback'); if(q){ q.onclick=function(){ XP2.liveHisab(); scrollTo(0,0); }; }
+      },80);
+    }
+    function openChild(k){
+      if(k==='calc' && typeof calcPg==='function') calcPg();
+      else if(k==='info' && typeof infoPg==='function') infoPg();
+      else if(typeof XP2!=='undefined' && typeof XP2[k]==='function') XP2[k]();
+      else if(typeof window.__openSection==='function') window.__openSection(k);
+      fixBack(); scrollTo(0,0);
+    }
+    /* 3) লাইভ হিসাব হাব */
+    XP2.liveHisab=function(){
+      var cards=[
+        ['calc','🧮','১','ক্যালকুলেটর','সব হিসাব নিকাশ','BMI, বয়স, মুদ্রা, ডিসকাউন্ট — সব হিসাব এখানেই'],
+        ['info','📊','২','অ্যাপ তথ্য','এই অ্যাপের সকল তথ্য','অ্যাপের ভেতরের সব তথ্য ও হিসাব এক জায়গায়'],
+        ['qb','🕋','৩','কিবলা কম্পাস','লাইভ দিকনির্দেশ','লাইভ কম্পাসে কাবার দিক দেখুন'],
+        ['cal','🗓️','৪','ক্যালেন্ডার','মাস ও বিশেষ দিন','হিজরি · বাংলা · ইংরেজি তারিখ ও বিশেষ দিন']
+      ];
+      var body="<div class='sub' style='margin-bottom:8px'>হিসাব-নিকাশের সব টুল এখন এক জায়গায় — যেটা দরকার সেটাতে চাপ দিন।</div>"
+        +"<div style='display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0'>"
+        +cards.map(function(c){
+          return "<button data-hubgo=\""+c[0]+"\" style=\"text-align:left;padding:10px 11px;border-radius:14px;border:1px solid rgba(201,162,39,.55);background:linear-gradient(160deg,#2A3E7E,#16224F);color:#F5F2EA;cursor:pointer;font:inherit;box-shadow:0 2px 8px rgba(27,42,94,.14);display:flex;flex-direction:column;gap:2px\">"
+            +"<span style='display:flex;justify-content:space-between;align-items:center'><span style='font-size:1.25rem'>"+c[1]+"</span><span style='font-size:.8rem;opacity:.75'>"+c[2]+"</span></span>"
+            +"<b style='font-size:1rem'>"+c[3]+"</b><small style='opacity:.85'>"+c[4]+"</small>"
+            +"<small style='opacity:.7;font-size:.7rem;line-height:1.5'>"+c[5]+"</small></button>";
+        }).join('')+"</div>";
+      xpg('🧮 লাইভ হিসাব',body);
+      document.querySelectorAll('[data-hubgo]').forEach(function(btn){
+        btn.onclick=function(){ openChild(btn.getAttribute('data-hubgo')); };
+      });
+    };
+    /* 4) কেউ সরাসরি পুরনো ৪টার একটা খুললেও ব্যাক -> লাইভ হিসাব */
+    if(typeof XP2!=='undefined'){
+      ['qb','cal'].forEach(function(k){
+        var orig=XP2[k]; if(typeof orig==='function' && !orig.__liveWrapped){
+          var w=function(){ var r=orig.apply(this,arguments); fixBack(); return r; }; w.__liveWrapped=true; XP2[k]=w;
+        }
+      });
+    }
+    if(typeof infoPg==='function' && !infoPg.__liveWrapped){
+      var _info=infoPg; var _w1=function(){ var r=_info.apply(this,arguments); fixBack(); return r; }; _w1.__liveWrapped=true; window.infoPg=_w1; try{ infoPg=_w1; }catch(e){}
+    }
+    if(typeof calcPg==='function' && !calcPg.__liveWrapped){
+      var _calc=calcPg; var _w2=function(){ var r=_calc.apply(this,arguments); fixBack(); return r; }; _w2.__liveWrapped=true; window.calcPg=_w2; try{ calcPg=_w2; }catch(e){}
+    }
+  }catch(e){ console.error(e); }
+})();
+</script>
 </body>
 
 <script id="nav-back-restore-v6">
